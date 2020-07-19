@@ -2,29 +2,62 @@
 
 namespace HitPay;
 
+use HitPay\Request\CreatePayment;
+use HitPay\Response\CreatePayment as CreatePaymentResponse;
+use HitPay\Response\DeletePaymentRequest;
+use HitPay\Response\PaymentStatus;
+
 /**
  * Class Client
  * @package HitPay
  */
-class Client
+class Client extends Request
 {
-    protected $apiKey = '';
+    const API_ENDPOINT = 'https://api.staging.hit-pay.com/v1';
+
+    const TYPE_CONTENT = 'application/x-www-form-urlencoded';
+
+    protected $privateApiKey = '';
 
     /**
-     * Client constructor.
-     * @param $apiKey
+     * https://staging.hit-pay.com/docs.html?shell#create-payment-request
+     *
+     * @param CreatePayment $request
+     * @return CreatePaymentResponse
+     * @throws \Exception
      */
-    public function __construct($apiKey)
+    public function createPayment(CreatePayment $request)
     {
-        $this->apiKey = $apiKey;
+        $result = $this->request('POST', '/payment-requests', (array)$request);
+
+        return new CreatePaymentResponse($result);
     }
 
     /**
-     * @return string
+     * https://staging.hit-pay.com/docs.html?shell#get-payment-status
+     *
+     * @param $id
+     * @return PaymentStatus
+     * @throws \Exception
      */
-    public function getApiKey()
+    public function getPaymentStatus($id)
     {
-        return $this->apiKey;
+        $result = $this->request('GET', '/payment-requests/' . $id);
+
+        return new PaymentStatus($result);
     }
 
+    /**
+     * https://staging.hit-pay.com/docs.html?shell#delete-payment-request
+     *
+     * @param $id
+     * @return PaymentStatus
+     * @throws \Exception
+     */
+    public function deletePaymentRequest($id)
+    {
+        $result = $this->request('DELETE', '/payment-requests/' . $id);
+
+        return new DeletePaymentRequest($result);
+    }
 }
