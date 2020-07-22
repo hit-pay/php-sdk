@@ -68,7 +68,7 @@ class Client extends Request
      * @param array $args
      * @return string
      */
-    protected function generateSignatureArray($secret, array $args)
+    public static function generateSignatureArray($secret, array $args)
     {
         $hmacSource = [];
         foreach ($args as $key => $val) {

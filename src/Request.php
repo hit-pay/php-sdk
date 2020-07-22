@@ -22,7 +22,7 @@ class Request
     /**
      * @var bool
      */
-    protected $isSandbox = false;
+    protected $isLive = false;
 
     private $ch;
 
@@ -41,17 +41,17 @@ class Request
     /**
      * Request constructor.
      * @param $privateApiKey
-     * @param bool $sandbox
+     * @param bool $live
      * @throws \Exception
      */
-    public function __construct($privateApiKey, $sandbox = false)
+    public function __construct($privateApiKey, $live = false)
     {
         if (!extension_loaded('curl')) {
             throw new \Exception('For work with HitPay Api to need php curl extension');
         }
 
         $this->privateApiKey = $privateApiKey;
-        $this->isSandbox = $sandbox;
+        $this->isLive = $live;
         $this->ch = curl_init();
     }
 
@@ -64,7 +64,7 @@ class Request
      */
     protected function request($type, $path, $request = array())
     {
-        $endpoint = $this->isSandbox ? static::SANDBOX_API_ENDPOINT : static::API_ENDPOINT;
+        $endpoint = $this->isLive ? static::API_ENDPOINT : static::SANDBOX_API_ENDPOINT;
 
         curl_setopt($this->ch, CURLOPT_URL, $endpoint . $path);
         curl_setopt($this->ch, CURLOPT_HEADER, false);
