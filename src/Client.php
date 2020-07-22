@@ -13,7 +13,9 @@ use HitPay\Response\PaymentStatus;
  */
 class Client extends Request
 {
-    const API_ENDPOINT = 'https://api.staging.hit-pay.com/v1';
+    const API_ENDPOINT = 'https://api.hit-pay.com/v1';
+
+    const SANDBOX_API_ENDPOINT = 'https://api.staging.hit-pay.com/v1';
 
     const TYPE_CONTENT = 'application/x-www-form-urlencoded';
 
@@ -59,5 +61,21 @@ class Client extends Request
         $result = $this->request('DELETE', '/payment-requests/' . $id);
 
         return new DeletePaymentRequest($result);
+    }
+
+    /**
+     * @param $secret
+     * @param array $args
+     * @return string
+     */
+    protected function generateSignatureArray($secret, array $args)
+    {
+        $hmacSource = [];
+        foreach ($args as $key => $val) {
+            $hmacSource[$key] = "{$key}{$val}";
+        }
+        ksort($hmacSource);
+        $sig = implode("", array_values($hmacSource));
+        return hash_hmac('sha256', $sig, $secret);
     }
 }

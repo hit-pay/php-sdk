@@ -3,8 +3,9 @@
 require_once '../vendor/autoload.php';
 
 $apiKey = 'c0dbc3dd9a09cc4c1e0773e600a212f9f982616c1ddefe3c2f70d56311c6c3e1';
+$salt = 'deG6ZBmiNg]9eMaSd]J;)DzKC,4{6^7a^suquQFgl>yfYQ_1r,[lQqr@/VjGs={2';
 
-$hitPayClient = new \HitPay\Client($apiKey);
+$hitPayClient = new \HitPay\Client($apiKey, true);
 
 try {
     $request = new \HitPay\Request\CreatePayment();

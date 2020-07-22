@@ -10,12 +10,19 @@ class Request
 {
     const API_ENDPOINT = '';
 
+    const SANDBOX_API_ENDPOINT = '';
+
     const TYPE_CONTENT = '';
 
     /**
      * @var string
      */
     protected $privateApiKey = '';
+
+    /**
+     * @var bool
+     */
+    protected $isSandbox = false;
 
     private $ch;
 
@@ -34,15 +41,17 @@ class Request
     /**
      * Request constructor.
      * @param $privateApiKey
+     * @param bool $sandbox
      * @throws \Exception
      */
-    public function __construct($privateApiKey)
+    public function __construct($privateApiKey, $sandbox = false)
     {
         if (!extension_loaded('curl')) {
             throw new \Exception('For work with HitPay Api to need php curl extension');
         }
 
         $this->privateApiKey = $privateApiKey;
+        $this->isSandbox = $sandbox;
         $this->ch = curl_init();
     }
 
@@ -55,7 +64,9 @@ class Request
      */
     protected function request($type, $path, $request = array())
     {
-        curl_setopt($this->ch, CURLOPT_URL, static::API_ENDPOINT . $path);
+        $endpoint = $this->isSandbox ? static::SANDBOX_API_ENDPOINT : static::API_ENDPOINT;
+
+        curl_setopt($this->ch, CURLOPT_URL, $endpoint . $path);
         curl_setopt($this->ch, CURLOPT_HEADER, false);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $type);
