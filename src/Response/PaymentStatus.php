@@ -24,7 +24,9 @@ class PaymentStatus extends CreatePayment
     {
         parent::__construct($response);
 
-        $this->setPayments($response->payments);
+        if (isset($response->payments)) {
+            $this->setPayments($response->payments);
+        }
     }
 
     /**
