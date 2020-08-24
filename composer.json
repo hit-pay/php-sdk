@@ -1,5 +1,5 @@
 {
-    "name": "soft-build/hitpay-sdk",
+    "name": "softbuild/hitpay-sdk",
     "type": "php",
     "require": {
         "php": ">=5.6"
