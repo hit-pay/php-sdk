@@ -96,6 +96,11 @@ class CreatePayment
     public $expiry_date;
 
     /**
+     * @var string
+     */
+    public $channel;
+
+    /**
      * @return float
      */
     public function getAmount()
@@ -321,5 +326,21 @@ class CreatePayment
         $this->expiry_date = $expiry_date;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChannel()
+    {
+        return $this->channel;
+    }
+
+    /**
+     * @param string $channel
+     */
+    public function setChannel($channel)
+    {
+        $this->channel = $channel;
     }
 }
