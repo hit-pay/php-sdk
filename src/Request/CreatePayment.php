@@ -338,9 +338,12 @@ class CreatePayment
 
     /**
      * @param string $channel
+     * @return CreatePayment
      */
     public function setChannel($channel)
     {
         $this->channel = $channel;
+
+        return $this;
     }
 }
