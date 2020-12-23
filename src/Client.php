@@ -15,7 +15,7 @@ class Client extends Request
 {
     const API_ENDPOINT = 'https://api.hit-pay.com/v1';
 
-    const SANDBOX_API_ENDPOINT = 'https://api.staging.hit-pay.com/v1';
+    const SANDBOX_API_ENDPOINT = 'https://api.sandbox.hit-pay.com/v1';
 
     const TYPE_CONTENT = 'application/x-www-form-urlencoded';
 
