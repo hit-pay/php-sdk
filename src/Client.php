@@ -6,6 +6,7 @@ use HitPay\Request\CreatePayment;
 use HitPay\Response\CreatePayment as CreatePaymentResponse;
 use HitPay\Response\DeletePaymentRequest;
 use HitPay\Response\PaymentStatus;
+use HitPay\Response\Refund;
 
 /**
  * Class Client
@@ -77,5 +78,19 @@ class Client extends Request
         ksort($hmacSource);
         $sig = implode("", array_values($hmacSource));
         return hash_hmac('sha256', $sig, $secret);
+    }
+    
+    /**
+     * https://hit-pay.com/docs.html?php#refund
+     *
+     * @params $payment_id, $amount
+     * @return Refund Response
+     * @throws \Exception
+     */
+    public function refund($payment_id, $amount)
+    {
+        $result = $this->request('POST', '/refund', array('payment_id' => $payment_id, 'amount' => $amount));
+
+        return new Refund($result);
     }
 }
