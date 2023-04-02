@@ -346,4 +346,26 @@ class CreatePayment
 
         return $this;
     }
+       
+    /**
+     * @param string $payment_method
+     * @return CreatePayment
+     */
+    public function setPaymentMethod($payment_method)
+    {
+        $this->payment_methods[] = $payment_method;
+
+        return $this;
+    }
+    
+    /**
+     * @param string $wifi_terminal_id
+     * @return CreatePayment
+     */
+    public function setWifiTerminalId($wifi_terminal_id)
+    {
+        $this->wifi_terminal_id = $wifi_terminal_id;
+
+        return $this;
+    }
 }
