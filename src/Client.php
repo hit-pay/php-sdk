@@ -38,7 +38,11 @@ class Client extends Request
      */
     public function createPayment(CreatePayment $request)
     {
-        $result = $this->request('POST', '/payment-requests', (array)$request);
+        $requestArray = (array)$request;
+        if (!(isset($requestArray['wifi_terminal_id']) && !empty($requestArray['wifi_terminal_id']))) {
+            unset($requestArray['wifi_terminal_id']);
+        }
+        $result = $this->request('POST', '/payment-requests', $requestArray);
 
         return new CreatePaymentResponse($result);
     }
